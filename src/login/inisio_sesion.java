@@ -1,19 +1,18 @@
 package login;
 
-
 import java.sql.Connection;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import conexion.Conexion;
+import conexion.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class inisio_sesion extends javax.swing.JFrame {
 
-    String contraseña, sqlSelectUser="", userDB, passDB, idUserDB, usuario ="", passwd ="";
+    String contraseña, sqlSelectUser = "", userDB, passDB, idUserDB, usuario = "", passwd = "";
     PreparedStatement ps;
     ResultSet rs;
-    
+
     public inisio_sesion() {
         initComponents();
         setLocationRelativeTo(this);
@@ -212,7 +211,7 @@ public class inisio_sesion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void btnSalir_InisioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalir_InisioMouseClicked
 
         if (JOptionPane.showConfirmDialog(jpInicio, "Esta Seguro de salir") == JOptionPane.YES_OPTION) {
@@ -227,65 +226,22 @@ public class inisio_sesion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalir_InisioActionPerformed
 
     private void btnIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseClicked
-        usuario = txt_Usuario.getText();
-        passwd = pwd.getText();
-        if (usuario.equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Debe ingresar el usuario, el campo es obligatorio", "Señor usuario", JOptionPane.ERROR_MESSAGE);
-            txt_Usuario.requestFocus();
-        } else if (passwd.equals("0000")) {
-            JOptionPane.showMessageDialog(rootPane, "Debe ingresar la contrsaeña, el campo es obligatorio", "Señor usuario", JOptionPane.ERROR_MESSAGE);
-            pwd.requestFocus();
-        } else{
-            sqlSelectUser = "SELECT * FROM tablasmultiplicar.users WHERE user_name=? AND password=?";
-            try {
-                ps = con.prepareStatement(sqlSelectUser);
-                ps.setString(1, usuario);
-                ps.setString(2, passwd);
-
-                rs = ps.executeQuery();
-                
-                if (rs.next()) {
-                    idUserDB = rs.getString("id_user");
-                    userDB = rs.getString("user_name");
-                    passDB = rs.getString("password");
-                    
-                    if (userDB.equals(usuario) && passDB.equals(passwd)) {
-                    System.out.println("Sesion iniciada");
-                    menu menu = new menu();
-                    menu.setVisible(true);
-                    this.dispose();
-//                    }
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "Las credenciales suministradas no concuerdan \n ó el usuario no existe en el sistema", "Señor usuario", JOptionPane.ERROR_MESSAGE);
-    //                    this.dispose();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "Las credenciales suministradas no concuerdan con registros del sistema\nLa consulta de usuario no trae datos", "Señor usuario", JOptionPane.ERROR_MESSAGE);
-                }
-                
-            } catch (Exception e) {
-                System.out.println("error: "+e);
-                JOptionPane.showMessageDialog(rootPane, "Se preswenta un error{e}", "Señor usuario", JOptionPane.ERROR_MESSAGE);            
-            }
+        String usuario = txt_Usuario.getText();
+        String passwd = new String(pwd.getPassword());
+        menu menu = new menu();
+        System.out.print("entro en clic de boton btnIngresarMouseClicked");
+        Authenticator authenticator = new Authenticator(con);
+        if (authenticator.authenticate(usuario, passwd, rootPane)) {
+            menu.setVisible(true);
+            this.dispose();
         }
-//        
-//        
-//        
-//        if (usuario.equals("sarahi") && passwd.equals("230610")) {
-
-//        } else {
-//            JOptionPane.showMessageDialog(jpInicio, "Usuario y contraseña no coinciden", "ERROR EN INICIO DE SESION", JOptionPane.ERROR_MESSAGE);
-//            pwd.setText("");
-//            txt_Usuario.setText("");
-//            txt_Usuario.requestFocus();
-//        }
     }//GEN-LAST:event_btnIngresarMouseClicked
 
     private void txt_UsuarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_UsuarioMouseReleased
-        if(pwd.requestFocus(true)){
+        if (pwd.requestFocus(true)) {
             pwd.setText("");
         }
-        
+
     }//GEN-LAST:event_txt_UsuarioMouseReleased
 
     private void pwdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdActionPerformed
@@ -293,25 +249,22 @@ public class inisio_sesion extends javax.swing.JFrame {
     }//GEN-LAST:event_pwdActionPerformed
 
     private void pwdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwdKeyPressed
-        
         usuario = txt_Usuario.getText();
-        contraseña = pwd.getText();
+        passwd = pwd.getText();
 
         menu menu = new menu();
 
         char car = (char) evt.getKeyCode();
 
         if (car == evt.VK_ENTER) {
-            //System.out.println("se presiono la tecla Enter");
-            
-            if (usuario.equals("sarahi") && contraseña.equals("230610")) {
+            System.out.println("se presiono la tecla Enter dentro de pwd_user");
+            String usuario = txt_Usuario.getText();
+            String passwd = new String(pwd.getPassword());
+            System.out.print("entro en clic de boton btnIngresarMouseClicked");
+            Authenticator authenticator = new Authenticator(con);
+            if (authenticator.authenticate(usuario, passwd, rootPane)) {
                 menu.setVisible(true);
                 this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(jpInicio, "Usuario y/o contraseña no coinciden", "ERROR EN INICIO DE SESION", JOptionPane.ERROR_MESSAGE);
-                pwd.setText("");
-                txt_Usuario.setText("");
-                txt_Usuario.requestFocus();
             }
         }
     }//GEN-LAST:event_pwdKeyPressed
@@ -325,11 +278,11 @@ public class inisio_sesion extends javax.swing.JFrame {
         char car = (char) evt.getKeyCode();
 
         if (car == evt.VK_ENTER) {
-            System.out.println("se presiono la tecla Enter");
+            System.out.println("se presiono la tecla Enter dentro de txt_usuario");
             usuario = txt_Usuario.getText();
-            if (usuario.equals("")){
+            if (usuario.equals("")) {
                 JOptionPane.showMessageDialog(jpInicio, "El campo usuario no puede estar vacio!!!", "ERROR EN INICIO DE SESION", JOptionPane.ERROR_MESSAGE);
-            }else{
+            } else {
                 pwd.requestFocus();
                 pwd.setText("");
             }
@@ -357,5 +310,5 @@ public class inisio_sesion extends javax.swing.JFrame {
     private javax.swing.JTextField txt_Usuario;
     // End of variables declaration//GEN-END:variables
 Conexion ct = new Conexion();
-Connection con = ct.conectar();
+    Connection con = ct.conectar();
 }

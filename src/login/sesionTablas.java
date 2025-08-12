@@ -27,11 +27,10 @@ public class sesionTablas extends javax.swing.JFrame {
         btnNumRes6.setVisible(false); btnNumRes7.setVisible(false); btnNumRes8.setVisible(false);
         btnNumRes9.setVisible(false); btnIgual.setVisible(false); btnRegresar.setVisible(false);
     }
-
+    
     String numero="",vacio="";
     int respuesta = 0, numeroA = 0, numeroB = 0;
-    int contador = 0;
-    
+    int contador = 0;    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -560,16 +559,6 @@ public class sesionTablas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalir_TablasActionPerformed
 
     private void btn_NuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NuevoMouseClicked
-        lbl_NumeroA0.setVisible(false); lbl_NumeroA1.setVisible(false);
-        lbl_NumeroA2.setVisible(false); lbl_NumeroA3.setVisible(false);
-        lbl_NumeroA4.setVisible(false); lbl_NumeroA5.setVisible(false);
-        lbl_NumeroA6.setVisible(false); lbl_NumeroA7.setVisible(false);
-        lbl_NumeroA8.setVisible(false); lbl_NumeroA9.setVisible(false);
-        lbl_NumeroB0.setVisible(false); lbl_NumeroB1.setVisible(false);
-        lbl_NumeroB2.setVisible(false); lbl_NumeroB3.setVisible(false);
-        lbl_NumeroB4.setVisible(false); lbl_NumeroB5.setVisible(false);
-        lbl_NumeroB6.setVisible(false); lbl_NumeroB7.setVisible(false);
-        lbl_NumeroB8.setVisible(false); lbl_NumeroB9.setVisible(false);
         lbl_Por.setVisible(true); 
         int randomA, randomB;
         Random numero = new Random();
